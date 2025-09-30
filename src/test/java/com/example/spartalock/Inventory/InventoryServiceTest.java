@@ -41,6 +41,8 @@ public class InventoryServiceTest {
         // 스레드마다 값이 업데이트 됐음을 확인하는 스레드 정수 카운터
         AtomicInteger successfulUpdates = new AtomicInteger(0);
 
+        long startTime = System.currentTimeMillis();
+
         for (int i = 0; i < testCnt; i++) {
             executor.execute(() -> {
                 try {
@@ -57,9 +59,14 @@ public class InventoryServiceTest {
         latch.await();
         executor.shutdown();    // 스레드 풀 사용 종료
 
+        long endTime = System.currentTimeMillis();
+        long duration = endTime - startTime;
+        double durationSeconds = duration / 1000.0;
+
         int totalCount = inventoryService.get(inventoryId).getCount();
         System.out.println("최종 count: " + totalCount);
         System.out.println("최종 increase: " + successfulUpdates.get());
+        System.out.println("테스트 실행 시간: " + durationSeconds + "초");
 
         assertNotEquals(successfulUpdates.get(), totalCount);
     }
