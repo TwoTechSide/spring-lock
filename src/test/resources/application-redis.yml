@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: sparta-lock
+
+  datasource:
+    url: jdbc:h2:mem:test
+    username: user
+    password: password
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+
+  data:
+    redis:
+      host: localhost
+    mongodb:
+      port: 6379
